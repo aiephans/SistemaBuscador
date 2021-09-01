@@ -12,14 +12,17 @@ namespace SistemaBuscador.Repositories
         {
             string connectionString = "server=localhost;database=cib4023600db;Integrated Security=true;";
             bool respuesta = false;
-            //string query = "select count(*) from usuarios where usuario = 'admin' and password = '123456'";
-            string query1 = "select count(*) from usuarios where usuario = '";
-            string query2 = "' and password = '";
-            string query3 = "'";
-            string query = query1 + usuario + query2 + password + query3;
+            //string query1 = "select count(*) from usuarios where usuario = '";
+            //string query2 = "' and password = '";
+            //string query3 = "'";
+            //string query = query1 + usuario + query2 + password + query3;
 
             using SqlConnection sql = new SqlConnection(connectionString);
-            using SqlCommand cmd = new SqlCommand(query, sql);
+            using SqlCommand cmd = new SqlCommand("sp_check_usuario", sql);
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.Add(new SqlParameter("@usuario", usuario));
+            cmd.Parameters.Add(new SqlParameter("@password", password));
+
 
             sql.Open();
             int count = (int)cmd.ExecuteScalar();

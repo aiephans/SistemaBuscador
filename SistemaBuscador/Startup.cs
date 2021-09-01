@@ -25,7 +25,7 @@ namespace SistemaBuscador
         {
             services.AddRazorPages();
             services.AddDistributedMemoryCache();
-            services.AddSession();
+            services.AddSession(option=>option.IdleTimeout = TimeSpan.FromMinutes(30));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

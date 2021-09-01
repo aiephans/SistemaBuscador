@@ -51,7 +51,7 @@ namespace SistemaBuscador.Pages
                 HttpContext.Session.SetString("sessionId", sessionId.ToString());
                 Response.Cookies.Append("sessionId", sessionId.ToString());
 
-                return RedirectToPage("./Test");
+                return RedirectToPage("./Home");
             }
             else
             {
