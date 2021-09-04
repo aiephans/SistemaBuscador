@@ -28,10 +28,10 @@
             <div class="form-group">
                 <label asp-for="RolId"></label>
                 <select asp-for="RolId" class="form-control">
-                    <option>--Seleccione--</option>
-                    <option>Administrador</option>
-                    <option>Supervisor</option>
-                    <option>Usuario</option>
+                    <option value="">--Seleccione--</option>
+                    <option value="1">Administrador</option>
+                    <option value="2">Supervisor</option>
+                    <option value="3">Usuario</option>
                 </select>
                 <span class="text-danger" asp-validation-for="RolId"></span>
             </div>
@@ -46,6 +46,7 @@
                 <span class="text-danger" asp-validation-for="RePassword"></span>
             </div>
             <button type="submit" class="btn btn-primary">Guardar</button>
+            <div asp-validation-summary="All" class="text-danger mt-3"></div>
         </form>
     </div>
 

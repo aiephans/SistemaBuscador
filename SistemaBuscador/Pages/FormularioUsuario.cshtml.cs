@@ -22,15 +22,19 @@ namespace SistemaBuscador.Pages
         public string Apellidos { get; set; }
         [Display(Name ="Rol")]
         [BindProperty]
-        [Required(ErrorMessage = "El campo Rol es requerido")]
-        public int RolId { get; set; }
+        [Required(ErrorMessage = "Debe seleccionar una opción")]
+        public int? RolId { get; set; }
         [Display(Name ="Contraseña")]
         [BindProperty]
         [Required(ErrorMessage = "El campo Contraseña es requerido")]
+        [MinLength(8,ErrorMessage ="La contraseña debe tener al menos 8 caracteres")]
+        [RegularExpression("^(?=\\w*\\d)(?=\\w*[A-Z])(?=\\w*[a-z])\\S{8,16}$",ErrorMessage ="La contraseña debe tener al menos una letra mayuscula,numeros y minusculas")]
         public string Password { get; set; }
         [Display(Name = "Repetir contraseña")]
         [BindProperty]
-        [Required(ErrorMessage = "El campo reperir contraseña es requerido")]
+        [Required(ErrorMessage = "El campo repetir contraseña es requerido")]
+        [MinLength(8, ErrorMessage = "La contraseña debe tener al menos 8 caracteres")]
+        [RegularExpression("^(?=\\w*\\d)(?=\\w*[A-Z])(?=\\w*[a-z])\\S{8,16}$", ErrorMessage = "La contraseña debe tener al menos una letra mayuscula,numeros y minusculas")]
         public string RePassword { get; set; }
 
         public void OnGet()
@@ -41,7 +45,16 @@ namespace SistemaBuscador.Pages
         {
             if (ModelState.IsValid)
             {
-                
+                string password = this.Password;
+                string password2 = this.RePassword;
+
+                if (password != password2)
+                {
+                    ModelState.AddModelError(string.Empty, "Las contraseñas no coinciden");
+                    return Page();
+                }
+
+                //Guardar el usuario en la BD
             }
             return Page();
         }
