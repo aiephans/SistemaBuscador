@@ -1,18 +1,18 @@
 ﻿@page
-@model SistemaBuscador.Pages.FormularioUsuarioModel
+@model SistemaBuscador.Pages.ActualizarUsuarioModel
 @{
-
 }
 
 <div class="card">
     <div class="card-header bg-primary text-white">
-        <h3>Nuevo usuario</h3>
+        <h3>Actualizar usuario</h3>
     </div>
     <div class="card-body">
         <form method="post">
+            <input type="hidden" asp-for="Id"/>
             <div class="form-group">
                 <label asp-for="NombreUsuario"></label>
-                <input asp-for="NombreUsuario" type="text" class="form-control" />
+                <input asp-for="NombreUsuario" type="text" class="form-control" readonly />
                 <span class="text-danger" asp-validation-for="NombreUsuario"></span>
             </div>
             <div class="form-group">
@@ -37,13 +37,12 @@
             </div>
             <div class="form-group">
                 <label asp-for="Password">Contraseña</label>
-                <input asp-for="Password" type="password" class="form-control" />
-               
+                @Html.PasswordFor(model=>model.Password, new { @value = Model.Password, @class = "form-control" })
                 <span class="text-danger" asp-validation-for="Password"></span>
             </div>
             <div class="form-group">
                 <label asp-for="RePassword">Repetir Contraseña</label>
-                <input asp-for="RePassword" type="password" class="form-control" />
+                @Html.PasswordFor(model => model.RePassword, new { @value = Model.RePassword, @class = "form-control" })
                 <span class="text-danger" asp-validation-for="RePassword"></span>
             </div>
             <button type="submit" class="btn btn-primary">Guardar</button>

@@ -10,11 +10,13 @@ using SistemaBuscador.Repositories;
 
 namespace SistemaBuscador.Pages
 {
-    public class FormularioUsuarioModel : PageModel
+    public class ActualizarUsuarioModel : PageModel
     {
-        [Display(Name ="Nombre usuario")]
         [BindProperty]
-        [Required(ErrorMessage ="El campo nombre usuario es requerido")]
+        public int Id { get; set; }
+        [Display(Name = "Nombre usuario")]
+        [BindProperty]
+        [Required(ErrorMessage = "El campo nombre usuario es requerido")]
         public string NombreUsuario { get; set; }
         [BindProperty]
         [Required(ErrorMessage = "El campo nombres es requerido")]
@@ -22,15 +24,15 @@ namespace SistemaBuscador.Pages
         [BindProperty]
         [Required(ErrorMessage = "El campo apellidos es requerido")]
         public string Apellidos { get; set; }
-        [Display(Name ="Rol")]
+        [Display(Name = "Rol")]
         [BindProperty]
         [Required(ErrorMessage = "Debe seleccionar una opción")]
         public int? RolId { get; set; }
-        [Display(Name ="Contraseña")]
+        [Display(Name = "Contraseña")]
         [BindProperty]
         [Required(ErrorMessage = "El campo Contraseña es requerido")]
-        [MinLength(8,ErrorMessage ="La contraseña debe tener al menos 8 caracteres")]
-        [RegularExpression("^(?=\\w*\\d)(?=\\w*[A-Z])(?=\\w*[a-z])\\S{8,16}$",ErrorMessage ="La contraseña debe tener al menos una letra mayuscula,numeros y minusculas")]
+        [MinLength(8, ErrorMessage = "La contraseña debe tener al menos 8 caracteres")]
+        [RegularExpression("^(?=\\w*\\d)(?=\\w*[A-Z])(?=\\w*[a-z])\\S{8,16}$", ErrorMessage = "La contraseña debe tener al menos una letra mayuscula,numeros y minusculas")]
         public string Password { get; set; }
         [Display(Name = "Repetir contraseña")]
         [BindProperty]
@@ -39,12 +41,29 @@ namespace SistemaBuscador.Pages
         [RegularExpression("^(?=\\w*\\d)(?=\\w*[A-Z])(?=\\w*[a-z])\\S{8,16}$", ErrorMessage = "La contraseña debe tener al menos una letra mayuscula,numeros y minusculas")]
         public string RePassword { get; set; }
 
-        public IActionResult OnGet()
+        public IActionResult OnGet(int id)
         {
-            if (string.IsNullOrEmpty(HttpContext.Session.GetString("sessionId")))
+           if (string.IsNullOrEmpty(HttpContext.Session.GetString("sessionId")))
             {
                 return RedirectToPage("./Index");
             }
+
+            if (id == 0)
+            {
+                return RedirectToPage("./Usuarios");
+            }
+
+            var repo = new UsuariosRepository();
+            var usuario = repo.ObtenerUsuarioPorId(id);
+            this.Id = usuario.Id;
+            this.NombreUsuario = usuario.NombreUsuario;
+            this.Nombres = usuario.Nombres;
+            this.Apellidos = usuario.Apellidos;
+            this.RolId = usuario.RolId;
+            this.Password = usuario.Password;
+            this.RePassword = usuario.Password;
+
+            //Ir a buscar el registro a la BD
 
             return Page();
         }
@@ -62,19 +81,13 @@ namespace SistemaBuscador.Pages
                     ModelState.AddModelError(string.Empty, "Las contraseñas no coinciden");
                     return Page();
                 }
-                //Consultar si existe en nombre usuario
-                if (repo.NombreUsuarioExiste(this.NombreUsuario))
-                {
-                    ModelState.AddModelError(string.Empty, "El nombre de usuario ya se encuentra registrado en la base de datos");
-                    return Page();
-                }
 
-                //Guardar el usuario en la BD
-                
-                repo.InsertUsuario(this.Nombres, this.Apellidos, this.NombreUsuario, (int)this.RolId, this.Password);
+                //repo.InsertUsuario(this.Nombres, this.Apellidos, this.NombreUsuario, (int)this.RolId, this.Password);
+                repo.UpdateUsuario(this.Id, this.Nombres, this.Apellidos, (int)this.RolId, this.Password);
                 return RedirectToPage("./Usuarios");
             }
             return Page();
         }
+
     }
 }

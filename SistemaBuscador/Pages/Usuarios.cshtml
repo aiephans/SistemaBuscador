@@ -24,46 +24,20 @@
                 </tr>
             </thead>
             <tbody>
+                @foreach (var usuario in Model.Usuarios)
+                {
                 <tr>
-                    <td>Usuario 1</td>
-                    <td>Nombres 1</td>
-                    <td>Apellidos 1</td>
-                    <td>Rol 1</td>
+                    <td>@usuario.NombreUsuario</td>
+                    <td>@usuario.Nombres</td>
+                    <td>@usuario.Apellidos</td>
+                    <td>@usuario.RolId</td>
                     <td>
+                        <a asp-page="ActualizarUsuario" asp-route-id="@usuario.Id" class="btn btn-warning"><i class="bi bi-pencil"></i></a>
                         <button class="btn btn-danger"><i class="bi bi-trash"></i></button>
-                        <button class="btn btn-warning"><i class="bi bi-pencil"></i></button>
                     </td>
                 </tr>
-                <tr>
-                    <td>Usuario 2</td>
-                    <td>Nombres 2</td>
-                    <td>Apellidos 2</td>
-                    <td>Rol 2</td>
-                    <td>
-                        <button class="btn btn-danger"><i class="bi bi-trash"></i></button>
-                        <button class="btn btn-warning"><i class="bi bi-pencil"></i></button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Usuario 3</td>
-                    <td>Nombres 3</td>
-                    <td>Apellidos 3</td>
-                    <td>Rol 3</td>
-                    <td>
-                        <button class="btn btn-danger"><i class="bi bi-trash"></i></button>
-                        <button class="btn btn-warning"><i class="bi bi-pencil"></i></button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Usuario 4</td>
-                    <td>Nombres 4</td>
-                    <td>Apellidos 4</td>
-                    <td>Rol 4</td>
-                    <td>
-                        <button class="btn btn-danger"><i class="bi bi-trash"></i></button>
-                        <button class="btn btn-warning"><i class="bi bi-pencil"></i></button>
-                    </td>
-                </tr>
+                }
+                
             </tbody>
         </table>
     </div>
