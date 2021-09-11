@@ -1,4 +1,5 @@
 ﻿using SistemaBuscador.Models;
+using SistemaBuscador.Utilidades;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -19,12 +20,12 @@ namespace SistemaBuscador.Repositories
             cmd.Parameters.Add(new SqlParameter("@apellidos", apellido));
             cmd.Parameters.Add(new SqlParameter("@nombreUsuario", nombreUsuario));
             cmd.Parameters.Add(new SqlParameter("@rolId", rolId));
-            cmd.Parameters.Add(new SqlParameter("@password", password));
+            cmd.Parameters.Add(new SqlParameter("@password",Security.Encrypt(password)));
             sql.Open();
             cmd.ExecuteNonQuery();
         }
 
-        public void UpdateUsuario(int id,string nombre, string apellidos, int rolId, string password)
+        public void UpdateUsuario(int id,string nombre, string apellidos, int rolId)
         {
             string connectionString = "server=localhost;database=cib4023600db;Integrated Security=true;";
             using SqlConnection sql = new SqlConnection(connectionString);
@@ -34,7 +35,29 @@ namespace SistemaBuscador.Repositories
             cmd.Parameters.Add(new SqlParameter("@nombres", nombre));
             cmd.Parameters.Add(new SqlParameter("@apellidos", apellidos));
             cmd.Parameters.Add(new SqlParameter("@rolId", rolId));
+            sql.Open();
+            cmd.ExecuteNonQuery();
+        }
+
+        public void UpdatePassword(int id,string password)
+        {
+            string connectionString = "server=localhost;database=cib4023600db;Integrated Security=true;";
+            using SqlConnection sql = new SqlConnection(connectionString);
+            using SqlCommand cmd = new SqlCommand("sp_actualiza_password", sql);
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.Add(new SqlParameter("@id", id));
             cmd.Parameters.Add(new SqlParameter("@password", password));
+            sql.Open();
+            cmd.ExecuteNonQuery();
+        }
+
+        public void DeleteUsuario(int id)
+        {
+            string connectionString = "server=localhost;database=cib4023600db;Integrated Security=true;";
+            using SqlConnection sql = new SqlConnection(connectionString);
+            using SqlCommand cmd = new SqlCommand("sp_eliminar_usuario", sql);
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.Add(new SqlParameter("@id", id));
             sql.Open();
             cmd.ExecuteNonQuery();
         }

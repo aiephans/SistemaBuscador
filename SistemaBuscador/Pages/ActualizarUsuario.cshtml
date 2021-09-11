@@ -9,7 +9,7 @@
     </div>
     <div class="card-body">
         <form method="post">
-            <input type="hidden" asp-for="Id"/>
+            <input type="hidden" asp-for="Id" />
             <div class="form-group">
                 <label asp-for="NombreUsuario"></label>
                 <input asp-for="NombreUsuario" type="text" class="form-control" readonly />
@@ -35,16 +35,17 @@
                 </select>
                 <span class="text-danger" asp-validation-for="RolId"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Password">Contraseña</label>
-                @Html.PasswordFor(model=>model.Password, new { @value = Model.Password, @class = "form-control" })
-                <span class="text-danger" asp-validation-for="Password"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="RePassword">Repetir Contraseña</label>
-                @Html.PasswordFor(model => model.RePassword, new { @value = Model.RePassword, @class = "form-control" })
-                <span class="text-danger" asp-validation-for="RePassword"></span>
-            </div>
+            @*<div class="form-group">
+            <label asp-for="Password">Contraseña</label>
+            @Html.PasswordFor(model=>model.Password, new { @value = Model.Password, @class = "form-control" })
+            <span class="text-danger" asp-validation-for="Password"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="RePassword">Repetir Contraseña</label>
+            @Html.PasswordFor(model => model.RePassword, new { @value = Model.RePassword, @class = "form-control" })
+            <span class="text-danger" asp-validation-for="RePassword"></span>
+        </div>*@
+            <a asp-page="Usuarios" class="btn btn-secondary">Volver</a>
             <button type="submit" class="btn btn-primary">Guardar</button>
             <div asp-validation-summary="All" class="text-danger mt-3"></div>
         </form>
