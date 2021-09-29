@@ -6,12 +6,16 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Logging;
 using SistemaBuscador.Repositories;
 
 namespace SistemaBuscador.Pages
 {
     public class ActualizarUsuarioModel : PageModel
     {
+        private readonly ILogger<IndexModel> _logger;
+
         [BindProperty]
         public int Id { get; set; }
         [Display(Name = "Nombre usuario")]
@@ -28,19 +32,17 @@ namespace SistemaBuscador.Pages
         [BindProperty]
         [Required(ErrorMessage = "Debe seleccionar una opción")]
         public int? RolId { get; set; }
-        //[Display(Name = "Contraseña")]
-        //[BindProperty]
-        //[Required(ErrorMessage = "El campo Contraseña es requerido")]
-        //[MinLength(8, ErrorMessage = "La contraseña debe tener al menos 8 caracteres")]
-        //[RegularExpression("^(?=\\w*\\d)(?=\\w*[A-Z])(?=\\w*[a-z])\\S{8,16}$", ErrorMessage = "La contraseña debe tener al menos una letra mayuscula,numeros y minusculas")]
-        //public string Password { get; set; }
-        //[Display(Name = "Repetir contraseña")]
-        //[BindProperty]
-        //[Required(ErrorMessage = "El campo repetir contraseña es requerido")]
-        //[MinLength(8, ErrorMessage = "La contraseña debe tener al menos 8 caracteres")]
-        //[RegularExpression("^(?=\\w*\\d)(?=\\w*[A-Z])(?=\\w*[a-z])\\S{8,16}$", ErrorMessage = "La contraseña debe tener al menos una letra mayuscula,numeros y minusculas")]
-        //public string RePassword { get; set; }
+        [Display(Name = "País")]
+        [BindProperty]
+        [Required(ErrorMessage = "Debe seleccionar una opción")]
+        public int? PaisId { get; set; }
+        public SelectList Roles { get; set; }
+        public SelectList Paises { get; set; }
 
+        public ActualizarUsuarioModel(ILogger<IndexModel> logger)
+        {
+            _logger = logger;
+        }
         public IActionResult OnGet(int id)
         {
            if (string.IsNullOrEmpty(HttpContext.Session.GetString("sessionId")))
@@ -60,10 +62,13 @@ namespace SistemaBuscador.Pages
             this.Nombres = usuario.Nombres;
             this.Apellidos = usuario.Apellidos;
             this.RolId = usuario.RolId;
-            //this.Password = usuario.Password;
-            //this.RePassword = usuario.Password;
-
-            //Ir a buscar el registro a la BD
+            this.PaisId = usuario.PaisId;
+            var rolRepo = new RolRepositorio();
+            var list = rolRepo.ObtenerRoles();
+            Roles = new SelectList(list, "Id", "Nombre");
+            var paisRepo = new PaisRepositorio();
+            var listPais = paisRepo.ObtenerPaises();
+            this.Paises = new SelectList(listPais, "Id", "Nombre");
 
             return Page();
         }
@@ -73,17 +78,8 @@ namespace SistemaBuscador.Pages
             if (ModelState.IsValid)
             {
                 var repo = new UsuariosRepository();
-                //string password = this.Password;
-                //string password2 = this.RePassword;
-
-                //if (password != password2)
-                //{
-                //    ModelState.AddModelError(string.Empty, "Las contraseñas no coinciden");
-                //    return Page();
-                //}
-
-                //repo.InsertUsuario(this.Nombres, this.Apellidos, this.NombreUsuario, (int)this.RolId, this.Password);
-                repo.UpdateUsuario(this.Id, this.Nombres, this.Apellidos, (int)this.RolId);
+                repo.UpdateUsuario(this.Id, this.Nombres, this.Apellidos, (int)this.RolId,(int)this.PaisId);
+                _logger.LogInformation("Usuario modificado : " + this.NombreUsuario);
                 return RedirectToPage("./Usuarios");
             }
             return Page();

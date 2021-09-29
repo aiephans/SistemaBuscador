@@ -10,7 +10,7 @@ namespace SistemaBuscador.Repositories
 {
     public class UsuariosRepository
     {
-        public void InsertUsuario(string nombre, string apellido, string nombreUsuario, int rolId, string password)
+        public void InsertUsuario(string nombre, string apellido, string nombreUsuario, int rolId, int paisId, string password)
         {
             string connectionString = "server=localhost;database=cib4023600db;Integrated Security=true;";
             using SqlConnection sql = new SqlConnection(connectionString);
@@ -20,12 +20,13 @@ namespace SistemaBuscador.Repositories
             cmd.Parameters.Add(new SqlParameter("@apellidos", apellido));
             cmd.Parameters.Add(new SqlParameter("@nombreUsuario", nombreUsuario));
             cmd.Parameters.Add(new SqlParameter("@rolId", rolId));
+            cmd.Parameters.Add(new SqlParameter("@paisId", paisId));
             cmd.Parameters.Add(new SqlParameter("@password",Security.Encrypt(password)));
             sql.Open();
             cmd.ExecuteNonQuery();
         }
 
-        public void UpdateUsuario(int id,string nombre, string apellidos, int rolId)
+        public void UpdateUsuario(int id,string nombre, string apellidos, int rolId, int paisId)
         {
             string connectionString = "server=localhost;database=cib4023600db;Integrated Security=true;";
             using SqlConnection sql = new SqlConnection(connectionString);
@@ -35,6 +36,7 @@ namespace SistemaBuscador.Repositories
             cmd.Parameters.Add(new SqlParameter("@nombres", nombre));
             cmd.Parameters.Add(new SqlParameter("@apellidos", apellidos));
             cmd.Parameters.Add(new SqlParameter("@rolId", rolId));
+            cmd.Parameters.Add(new SqlParameter("@paisId", paisId));
             sql.Open();
             cmd.ExecuteNonQuery();
         }
@@ -98,7 +100,9 @@ namespace SistemaBuscador.Repositories
                         Nombres = reader["nombres"].ToString(),
                         Apellidos = reader["apellidos"].ToString(),
                         NombreUsuario = reader["nombreUsuario"].ToString(),
-                        RolId = (int)reader["rolId"]
+                        RolId = (int)reader["rolId"],
+                        Rol = reader["rol"].ToString(),
+                        Pais = reader["pais"].ToString(),
                     };
 
                     respuesta.Add(nuevoUsuario);
@@ -127,6 +131,7 @@ namespace SistemaBuscador.Repositories
                         Apellidos = reader["apellidos"].ToString(),
                         NombreUsuario = reader["nombreUsuario"].ToString(),
                         RolId = (int)reader["rolId"],
+                        PaisId = (int)reader["paisId"],
                         Password = reader["password"].ToString()
                     };
 

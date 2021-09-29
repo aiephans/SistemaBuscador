@@ -1,0 +1,41 @@
+﻿@page
+@model SistemaBuscador.Pages.PaisesModel
+@{
+}
+
+<div class="card">
+    <div class="card-header">
+        <h3>Paises</h3>
+        <a asp-page="NuevoPais" class="btn btn-primary float-right">
+            <i class="bi bi-plus-circle"></i>
+            Nuevo
+        </a>
+    </div>
+    <div class="card-body">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Rol</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var rol in Model.Paises)
+                {
+                    <tr>
+                        <td>@rol.Id</td>
+                        <td>@rol.Nombre</td>
+                        <td>
+                            <a asp-page="EditarPais" asp-route-id="@rol.Id" class="btn btn-warning" data-toggle="tooltip" data-placement="top" title="Editar"><i class="bi bi-pencil"></i></a>
+                            <a asp-page="EliminarPais" asp-route-id="@rol.Id" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Eliminar"><i class="bi bi-trash"></i></a>
+
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+        <a asp-page="Home" class="btn btn-secondary">Volver</a>
+    </div>
+</div>

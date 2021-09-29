@@ -20,6 +20,7 @@
                     <th>Nombres</th>
                     <th>Apellidos</th>
                     <th>Rol</th>
+                    <th>País</th>
                     <th></th>
                 </tr>
             </thead>
@@ -30,11 +31,12 @@
                     <td>@usuario.NombreUsuario</td>
                     <td>@usuario.Nombres</td>
                     <td>@usuario.Apellidos</td>
-                    <td>@usuario.RolId</td>
+                    <td>@usuario.Rol</td>
+                    <td>@usuario.Pais</td>
                     <td>
                         <a asp-page="ActualizarUsuario" asp-route-id="@usuario.Id" class="btn btn-warning" data-toggle="tooltip" data-placement="top" title="Editar"><i class="bi bi-pencil"></i></a>
                         <a asp-page="EliminarUsuario" asp-route-id="@usuario.Id" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Eliminar"><i class="bi bi-trash"></i></a>
-                        <a asp-page="CambioPassword" asp-route-id="@usuario.Id"  class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Cambiar contraseña"><i class="bi bi-key"></i></a>
+                        <a asp-page="CambioPassword" asp-route-id="@usuario.Id" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Cambiar contraseña"><i class="bi bi-key"></i></a>
                     </td>
                 </tr>
                 }

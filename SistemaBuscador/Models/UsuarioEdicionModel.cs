@@ -12,6 +12,7 @@ namespace SistemaBuscador.Models
         public string Apellidos { get; set; }
         public string NombreUsuario { get; set; }
         public int RolId { get; set; }
+        public int PaisId { get; set; }
         public string Password { get; set; }
     }
 }

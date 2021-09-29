@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using SistemaBuscador.Repositories;
 
 namespace SistemaBuscador.Pages
@@ -26,6 +27,10 @@ namespace SistemaBuscador.Pages
         [BindProperty]
         [Required(ErrorMessage = "Debe seleccionar una opción")]
         public int? RolId { get; set; }
+        [Display(Name = "País")]
+        [BindProperty]
+        [Required(ErrorMessage = "Debe seleccionar una opción")]
+        public int? PaisId { get; set; }
         [Display(Name ="Contraseña")]
         [BindProperty]
         [Required(ErrorMessage = "El campo Contraseña es requerido")]
@@ -38,6 +43,8 @@ namespace SistemaBuscador.Pages
         [MinLength(8, ErrorMessage = "La contraseña debe tener al menos 8 caracteres")]
         [RegularExpression("^(?=\\w*\\d)(?=\\w*[A-Z])(?=\\w*[a-z])\\S{8,16}$", ErrorMessage = "La contraseña debe tener al menos una letra mayuscula,numeros y minusculas")]
         public string RePassword { get; set; }
+        public SelectList Roles { get; set; }
+        public SelectList Paises { get; set; }
 
         public IActionResult OnGet()
         {
@@ -45,6 +52,13 @@ namespace SistemaBuscador.Pages
             {
                 return RedirectToPage("./Index");
             }
+
+            var rolRepo = new RolRepositorio();
+            var list = rolRepo.ObtenerRoles();
+            Roles = new SelectList(list,"Id","Nombre");
+            var paisRepo = new PaisRepositorio();
+            var listPais = paisRepo.ObtenerPaises();
+            this.Paises = new SelectList(listPais, "Id", "Nombre");
 
             return Page();
         }
@@ -71,7 +85,7 @@ namespace SistemaBuscador.Pages
 
                 //Guardar el usuario en la BD
                 
-                repo.InsertUsuario(this.Nombres, this.Apellidos, this.NombreUsuario, (int)this.RolId, this.Password);
+                repo.InsertUsuario(this.Nombres, this.Apellidos, this.NombreUsuario, (int)this.RolId, (int)this.PaisId,this.Password);
                 return RedirectToPage("./Usuarios");
             }
             return Page();

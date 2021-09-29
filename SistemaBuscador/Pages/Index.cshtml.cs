@@ -50,11 +50,12 @@ namespace SistemaBuscador.Pages
                 Guid sessionId = Guid.NewGuid();
                 HttpContext.Session.SetString("sessionId", sessionId.ToString());
                 Response.Cookies.Append("sessionId", sessionId.ToString());
-
+                _logger.LogInformation("Usuario logeado correctamente: "+ this.Usuario);
                 return RedirectToPage("./Home");
             }
             else
             {
+                _logger.LogWarning("fallo al iniciar session usuario:"+this.Usuario);
                 ModelState.AddModelError(string.Empty, "Usuario o contraseña incorrectos");
                 return Page();
             }
