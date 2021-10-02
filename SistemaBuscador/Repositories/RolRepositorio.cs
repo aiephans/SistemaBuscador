@@ -9,13 +9,15 @@ namespace SistemaBuscador.Repositories
 {
     public class RolRepositorio
     {
-        public void InsertRol(string nombre)
+        public void InsertRol(string nombre,bool lectura, bool escritura)
         {
             string connectionString = "server=localhost;database=cib4023600db;Integrated Security=true;";
             using SqlConnection sql = new SqlConnection(connectionString);
             using SqlCommand cmd = new SqlCommand("sp_insertar_rol", sql);
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add(new SqlParameter("@nombre", nombre));
+            cmd.Parameters.Add(new SqlParameter("@lectura", lectura));
+            cmd.Parameters.Add(new SqlParameter("@escritura", escritura));
             sql.Open();
             cmd.ExecuteNonQuery();
         }
@@ -35,7 +37,9 @@ namespace SistemaBuscador.Repositories
                     var nuevoRol = new RolListaModelo()
                     {
                         Id = (int)reader["id"],
-                        Nombre = reader["nombre"].ToString()
+                        Nombre = reader["nombre"].ToString(),
+                        Escritura =(bool)reader["escritura"],
+                        Lectura = (bool)reader["lectura"]
                     };
 
                     respuesta.Add(nuevoRol);
@@ -60,7 +64,9 @@ namespace SistemaBuscador.Repositories
                     var nuevoRol = new RolListaModelo()
                     {
                         Id = (int)reader["id"],
-                        Nombre = reader["nombre"].ToString()
+                        Nombre = reader["nombre"].ToString(),
+                        Escritura = (bool)reader["escritura"],
+                        Lectura = (bool)reader["lectura"]
                     };
 
                     respuesta = nuevoRol;
@@ -70,7 +76,7 @@ namespace SistemaBuscador.Repositories
         }
 
 
-        public void ActualizarRol(int id, string nombre)
+        public void ActualizarRol(int id, string nombre, bool lectura, bool escritura)
         {
             string connectionString = "server=localhost;database=cib4023600db;Integrated Security=true;";
             using SqlConnection sql = new SqlConnection(connectionString);
@@ -78,6 +84,8 @@ namespace SistemaBuscador.Repositories
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add(new SqlParameter("@id", id));
             cmd.Parameters.Add(new SqlParameter("@nombre", nombre));
+            cmd.Parameters.Add(new SqlParameter("@lectura", lectura));
+            cmd.Parameters.Add(new SqlParameter("@escritura", escritura));
             sql.Open();
             cmd.ExecuteNonQuery();
         }

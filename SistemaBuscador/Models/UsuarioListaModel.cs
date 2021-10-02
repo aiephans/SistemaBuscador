@@ -15,6 +15,8 @@ namespace SistemaBuscador.Models
         public string Rol { get; set; }
         public int PaisId { get; set; }
         public string Pais { get; set; }
+        public bool Lectura { get; set; }
+        public bool Escritura { get; set; }
 
     }
 }

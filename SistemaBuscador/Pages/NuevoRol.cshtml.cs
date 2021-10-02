@@ -15,6 +15,10 @@ namespace SistemaBuscador.Pages
         [BindProperty]
         [Required(ErrorMessage ="El campo Nombre es requerido")]
         public string Nombre { get; set; }
+        [BindProperty]
+        public bool Escritura { get; set; }
+        [BindProperty]
+        public bool Lectura { get; set; }
         public IActionResult OnGet()
         {
             if (string.IsNullOrEmpty(HttpContext.Session.GetString("sessionId")))
@@ -30,7 +34,7 @@ namespace SistemaBuscador.Pages
             {
                 //Guardar en la BD
                 var repo = new RolRepositorio();
-                repo.InsertRol(this.Nombre);
+                repo.InsertRol(this.Nombre, this.Lectura, this.Escritura);
                 return RedirectToPage("./Roles");
             }
 

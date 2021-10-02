@@ -51,6 +51,11 @@ namespace SistemaBuscador.Pages
                 HttpContext.Session.SetString("sessionId", sessionId.ToString());
                 Response.Cookies.Append("sessionId", sessionId.ToString());
                 _logger.LogInformation("Usuario logeado correctamente: "+ this.Usuario);
+                var repoUsuario = new UsuariosRepository();
+                var usuarioBd = repoUsuario.ObtenerUsuarioPorNombre(this.Usuario);
+                HttpContext.Session.SetString("rol", usuarioBd.Rol.ToString());
+                HttpContext.Session.SetString("lectura", usuarioBd.Lectura.ToString());
+                HttpContext.Session.SetString("escritura", usuarioBd.Lectura.ToString());
                 return RedirectToPage("./Home");
             }
             else

@@ -17,21 +17,25 @@
                 <tr>
                     <th>Id</th>
                     <th>Rol</th>
+                    <th>Escritura</th>
+                    <th>Lectura</th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var rol in Model.Roles)
                 {
-                    <tr>
-                        <td>@rol.Id</td>
-                        <td>@rol.Nombre</td>
-                        <td>
-                            <a asp-page="EditarRol" asp-route-id="@rol.Id" class="btn btn-warning" data-toggle="tooltip" data-placement="top" title="Editar"><i class="bi bi-pencil"></i></a>
-                            <a asp-page="EliminarRol" asp-route-id="@rol.Id" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Eliminar"><i class="bi bi-trash"></i></a>
+                <tr>
+                    <td>@rol.Id</td>
+                    <td>@rol.Nombre</td>
+                    <td>@rol.Escritura</td>
+                    <td>@rol.Lectura</td>
+                    <td>
+                        <a asp-page="EditarRol" asp-route-id="@rol.Id" class="btn btn-warning" data-toggle="tooltip" data-placement="top" title="Editar"><i class="bi bi-pencil"></i></a>
+                        <a asp-page="EliminarRol" asp-route-id="@rol.Id" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Eliminar"><i class="bi bi-trash"></i></a>
 
-                        </td>
-                    </tr>
+                    </td>
+                </tr>
                 }
 
             </tbody>

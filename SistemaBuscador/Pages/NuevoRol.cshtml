@@ -11,8 +11,16 @@
         <form method="post">
             <div class="form-group">
                 <label asp-for="Nombre"></label>
-                <input asp-for="Nombre"  type="text" class="form-control" />
+                <input asp-for="Nombre" type="text" class="form-control" />
                 <span asp-validation-for="Nombre" class="text-danger"></span>
+            </div>
+            <div class="form-check">
+                <input type="checkbox" asp-for="Lectura" class="form-check-input" />
+                <label class="form-check-label" asp-for="Lectura"></label>
+            </div>
+            <div class="form-check mb-5">
+                <input type="checkbox" asp-for="Escritura" class="form-check-input" />
+                <label class="form-check-label" asp-for="Escritura"></label>
             </div>
             <a asp-page="Roles" class="btn btn-secondary">Volver</a>
             <button type="submit" class="btn btn-primary">Guardar</button>

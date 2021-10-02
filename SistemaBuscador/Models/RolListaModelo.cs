@@ -9,5 +9,7 @@ namespace SistemaBuscador.Models
     {
         public int Id { get; set; }
         public string Nombre { get; set; }
+        public bool Escritura { get; set; }
+        public bool Lectura { get; set; }
     }
 }

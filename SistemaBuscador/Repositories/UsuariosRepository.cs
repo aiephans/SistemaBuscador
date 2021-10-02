@@ -111,6 +111,38 @@ namespace SistemaBuscador.Repositories
             return respuesta;
         }
 
+        public UsuarioListaModel ObtenerUsuarioPorNombre(string nombre)
+        {
+            var respuesta = new UsuarioListaModel();
+            string connectionString = "server=localhost;database=cib4023600db;Integrated Security=true;";
+            using SqlConnection sql = new SqlConnection(connectionString);
+            using SqlCommand cmd = new SqlCommand("sp_obtener_usuario_por_nombre", sql);
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.Add(new SqlParameter("@nombre", nombre));
+            sql.Open();
+            using (var reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    var nuevoUsuario = new UsuarioListaModel()
+                    {
+                        Id = (int)reader["id"],
+                        Nombres = reader["nombres"].ToString(),
+                        Apellidos = reader["apellidos"].ToString(),
+                        NombreUsuario = reader["nombreUsuario"].ToString(),
+                        RolId = (int)reader["rolId"],
+                        Rol = reader["rol"].ToString(),
+                        Pais = reader["pais"].ToString(),
+                        Lectura = (bool)reader["lectura"],
+                        Escritura = (bool)reader["escritura"]
+                    };
+
+                    respuesta = nuevoUsuario;
+                }
+            }
+            return respuesta;
+        }
+
         public UsuarioEdicionModel ObtenerUsuarioPorId(int id)
         {
             var respuesta = new UsuarioEdicionModel();
