@@ -17,30 +17,76 @@
             </div>
             <div class="form-group">
                 <label asp-for="Nombres"></label>
-                <input asp-for="Nombres" type="text" class="form-control" />
+                @if (Model.Escritura)
+                {
+                    <input asp-for="Nombres" type="text" class="form-control" />
+                }
+                else
+                {
+                    <input asp-for="Nombres" type="text" class="form-control" readonly />
+                }
+
                 <span class="text-danger" asp-validation-for="Nombres"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Apellidos"></label>
-                <input asp-for="Apellidos" type="text" class="form-control" />
+                @if (Model.Escritura)
+                {
+                    <input asp-for="Apellidos" type="text" class="form-control" />
+                }
+                else
+                {
+                    <input asp-for="Apellidos" type="text" class="form-control" readonly />
+                }
+
                 <span class="text-danger" asp-validation-for="Apellidos"></span>
             </div>
             <div class="form-group">
                 <label asp-for="RolId"></label>
-                <select asp-for="RolId" class="form-control" asp-items="Model.Roles">
-                    <option value="">--Seleccione--</option>
-                </select>
+                @if (Model.Escritura)
+                {
+                    <select asp-for="RolId" class="form-control" asp-items="Model.Roles">
+                        <option value="">--Seleccione--</option>
+                    </select>
+                }
+                else
+                {
+                    <select asp-for="RolId" class="form-control" asp-items="Model.Roles" disabled>
+                        <option value="">--Seleccione--</option>
+                    </select>
+                }
+
                 <span class="text-danger" asp-validation-for="RolId"></span>
             </div>
             <div class="form-group">
                 <label asp-for="PaisId"></label>
-                <select asp-for="PaisId" class="form-control" asp-items="Model.Paises">
-                    <option value="">--Seleccione--</option>
-                </select>
+                @if (Model.Escritura)
+                {
+                    <select asp-for="PaisId" class="form-control" asp-items="Model.Paises">
+                        <option value="">--Seleccione--</option>
+                    </select>
+                }
+                else
+                {
+                    <select asp-for="PaisId" class="form-control" asp-items="Model.Paises" disabled>
+                        <option value="">--Seleccione--</option>
+                    </select>
+                }
+
                 <span class="text-danger" asp-validation-for="PaisId"></span>
             </div>
             <a asp-page="Usuarios" class="btn btn-secondary">Volver</a>
-            <button type="submit" class="btn btn-primary">Guardar</button>
+            @if (Model.Escritura)
+            {
+
+
+                <button type="submit" class="btn btn-primary">Guardar</button>
+            }
+            else
+            {
+                <button type="submit" class="btn btn-primary" disabled>Guardar</button>
+            }
+           
             <div asp-validation-summary="All" class="text-danger mt-3"></div>
         </form>
     </div>

@@ -12,6 +12,8 @@ namespace SistemaBuscador.Pages
 {
     public class UsuariosModel : PageModel
     {
+        public bool Escritura { get; set; }
+        public bool Lectura { get; set; }
         public List<UsuarioListaModel> Usuarios { get; set; }
 
         public IActionResult OnGet()
@@ -20,9 +22,11 @@ namespace SistemaBuscador.Pages
             {
                 return RedirectToPage("./Index");
             }
-
+            var idUsuario = (int)HttpContext.Session.GetInt32("usuarioId");
             var repo = new UsuariosRepository();
-
+            var permisos = repo.ObtenerPermisosPorId(idUsuario);
+            this.Escritura = permisos.Escritura;
+            this.Lectura = permisos.Lectura;
             this.Usuarios = repo.ObtenerUsuarios();
 
             return Page();

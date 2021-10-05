@@ -14,6 +14,9 @@ namespace SistemaBuscador.Pages
 {
     public class ActualizarUsuarioModel : PageModel
     {
+        public bool Escritura { get; set; }
+        public bool Lectura { get; set; }
+
         private readonly ILogger<IndexModel> _logger;
 
         [BindProperty]
@@ -54,8 +57,13 @@ namespace SistemaBuscador.Pages
             {
                 return RedirectToPage("./Usuarios");
             }
-
+            var idUsuario = (int)HttpContext.Session.GetInt32("usuarioId");
             var repo = new UsuariosRepository();
+            var permisos = repo.ObtenerPermisosPorId(idUsuario);
+            this.Escritura = permisos.Escritura;
+            this.Lectura = permisos.Lectura;
+
+            
             var usuario = repo.ObtenerUsuarioPorId(id);
             this.Id = usuario.Id;
             this.NombreUsuario = usuario.NombreUsuario;

@@ -53,9 +53,7 @@ namespace SistemaBuscador.Pages
                 _logger.LogInformation("Usuario logeado correctamente: "+ this.Usuario);
                 var repoUsuario = new UsuariosRepository();
                 var usuarioBd = repoUsuario.ObtenerUsuarioPorNombre(this.Usuario);
-                HttpContext.Session.SetString("rol", usuarioBd.Rol.ToString());
-                HttpContext.Session.SetString("lectura", usuarioBd.Lectura.ToString());
-                HttpContext.Session.SetString("escritura", usuarioBd.Lectura.ToString());
+                HttpContext.Session.SetInt32("usuarioId", usuarioBd.Id);
                 return RedirectToPage("./Home");
             }
             else

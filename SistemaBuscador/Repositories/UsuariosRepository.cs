@@ -172,5 +172,31 @@ namespace SistemaBuscador.Repositories
             }
             return respuesta;
         }
+
+        public Permisos ObtenerPermisosPorId(int id)
+        {
+            var respuesta = new Permisos();
+            string connectionString = "server=localhost;database=cib4023600db;Integrated Security=true;";
+            using SqlConnection sql = new SqlConnection(connectionString);
+            using SqlCommand cmd = new SqlCommand("sp_obtener_permisos_por_id", sql);
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.Add(new SqlParameter("@id", id));
+            sql.Open();
+            using (var reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    var nuevoPermiso = new Permisos()
+                    {
+                        Escritura = (bool)reader["escritura"],
+                        Lectura = (bool)reader["lectura"]
+
+                    };
+
+                    respuesta = nuevoPermiso;
+                }
+            }
+            return respuesta;
+        }
     }
 }
